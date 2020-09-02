@@ -1,16 +1,16 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.9.6)
 
 # ---------------------------------------------------------------------------- #
 # PROJECT
 # name version language
 # ---------------------------------------------------------------------------- #
-project(AES VERSION 1.0 LANGUAGES CXX)
+project(rbm_verify VERSION 1.0 LANGUAGES CXX)
 
 # ---------------------------------------------------------------------------- #
 # VARIABLE
 # alias and configurations
 # ---------------------------------------------------------------------------- #
-set(AES_TARGET ${PROJECT_NAME})
+set(MyTarget ${PROJECT_NAME})
 
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
@@ -22,65 +22,46 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 ##
 find_package(ilang REQUIRED)
 
-##
-## Python (required if CMake version < 3.12)
-##
-if(${CMAKE_VERSION} VERSION_LESS 3.12)
 
-  if(NOT TARGET Python::Python)
-    add_library(Python::Python IMPORTED INTERFACE)
-
-    set_property(TARGET Python::Python 
-      PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_DIRECTORIES}
-    )
-
-    set_property(TARGET Python::Python
-      PROPERTY INTERFACE_LINK_LIBRARIES ${PYTHON_LIBRARIES}
-    )
-    
-  endif()
-
-endif()
 
 
 # ---------------------------------------------------------------------------- #
 # TARGET
 # library
 # ---------------------------------------------------------------------------- #
-add_library(${AES_TARGET}
-  src/aes_128.cc
-  src/aes_child.cc
-  src/aes_ila.cc
-  src/aes_util.cc
+add_library(${MyTarget}
+  src/rbm_compute.cc
+  src/rbm_util.cc
+  src/rbm_ila.cc
 )
 
-target_include_directories(${AES_TARGET} PRIVATE include)
+target_include_directories(${MyTarget} PRIVATE include)
 
-target_link_libraries(${AES_TARGET} PUBLIC ilang::ilang)
+target_link_libraries(${MyTarget} PUBLIC ilang::ilang)
+
 
 
 # ---------------------------------------------------------------------------- #
 # TARGET
 # executable
 # ---------------------------------------------------------------------------- #
-add_executable(${AES_TARGET}Exe
+add_executable(${MyTarget}Exe
   app/main.cc
 )
 
-target_include_directories(${AES_TARGET}Exe PRIVATE include)
+target_include_directories(${MyTarget}Exe PRIVATE include)
 
-target_link_libraries(${AES_TARGET}Exe ${AES_TARGET})
-
+target_link_libraries(${MyTarget}Exe ${MyTarget})
 
 
 # ---------------------------------------------------------------------------- #
 # TARGET
 # executable
 # ---------------------------------------------------------------------------- #
-add_executable(${AES_TARGET}AQed
+add_executable(${MyTarget}AQed
   app/aqed-support.cc
 )
 
-target_include_directories(${AES_TARGET}AQed PRIVATE include)
+target_include_directories(${MyTarget}AQed PRIVATE include)
 
-target_link_libraries(${AES_TARGET}AQed ${AES_TARGET})
+target_link_libraries(${MyTarget}AQed ${MyTarget})
