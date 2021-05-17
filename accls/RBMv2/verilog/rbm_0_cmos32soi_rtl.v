@@ -42,6 +42,7 @@ hidden_unit_A3);
   input [31:0] conf_num_testusers;
   input [31:0] conf_num_movies;
   input data_in_valid;
+  // data_in_data is given to rd_index
   input [31:0] data_in_data;
   input data_out_ready;
   input [31:0] mt_Q1;
